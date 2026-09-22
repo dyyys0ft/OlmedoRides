@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OlmedoRides | Viajes puerta a puerta</title>
+  <meta name="description" content="Demo de plataforma de viajes puerta a puerta con asientos y reservas en tiempo real." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">O</div>
+      <div>
+        <strong>OlmedoRides</strong>
+        <span>Viajes puerta a puerta</span>
+      </div>
+    </div>
+    <nav>
+      <a href="#viajes">Viajes</a>
+      <a href="#como-funciona">Cómo funciona</a>
+      <button class="btn btn-primary" id="openCreateTrip">Crear viaje</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">TRANSPORTE COMPARTIDO</span>
+        <h1>Viaja de puerta a puerta, <span>sin complicaciones.</span></h1>
+        <p>Encuentra viajes, elige tu asiento, conoce su precio y reserva en línea. Cada asiento puede tener un costo diferente.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary btn-lg" href="#viajes">Buscar viajes</a>
+          <button class="btn btn-secondary btn-lg" id="openCreateTrip2">Publicar un viaje</button>
+        </div>
+        <div class="trust-row">
+          <div><b>●</b> Disponibilidad en tiempo real</div>
+          <div><b>●</b> Reserva por asiento</div>
+          <div><b>●</b> Información del conductor</div>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="route-line">
+          <div class="place">
+            <span class="dot"></span>
+            <div><small>ORIGEN</small><strong>Riobamba</strong></div>
+          </div>
+          <div class="line"></div>
+          <div class="place">
+            <span class="dot destination"></span>
+            <div><small>DESTINO</small><strong>Quito</strong></div>
+          </div>
+        </div>
+        <div class="mini-trip">
+          <div>
+            <span>Hoy · 18:30</span>
+            <strong>Puerta a puerta</strong>
+          </div>
+          <strong class="price">$8.50</strong>
+        </div>
+        <button class="btn btn-dark full" onclick="scrollToTrips()">Ver asientos disponibles</button>
+      </div>
+    </section>
+
+    <section class="search-panel" id="viajes">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">ENCUENTRA TU VIAJE</span>
+          <h2>Viajes disponibles</h2>
+        </div>
+        <span class="live"><i></i> Actualización en tiempo real</span>
+      </div>
+      <div class="filters">
+        <label>Origen<input id="filterOrigin" placeholder="Ej. Riobamba"></label>
+        <label>Destino<input id="filterDestination" placeholder="Ej. Quito"></label>
+        <label>Fecha<input id="filterDate" type="date"></label>
+        <button class="btn btn-primary" id="searchTrips">Buscar</button>
+      </div>
+    </section>
+
+    <section class="trips-grid" id="tripList"></section>
+
+    <section class="how" id="como-funciona">
+      <div class="section-heading centered">
+        <span class="eyebrow">OLMEDORIDES</span>
+        <h2>Una reserva simple y transparente</h2>
+      </div>
+      <div class="steps">
+        <article><span>01</span><h3>Busca</h3><p>Indica origen, destino y fecha para encontrar viajes disponibles.</p></article>
+        <article><span>02</span><h3>Elige</h3><p>Revisa ruta, conductor, vehículo, observaciones y disponibilidad.</p></article>
+        <article><span>03</span><h3>Selecciona tu asiento</h3><p>Cada asiento muestra su propio precio y estado en tiempo real.</p></article>
+        <article><span>04</span><h3>Reserva</h3><p>Confirma tus datos y bloquea el asiento para completar la reserva.</p></article>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-backdrop hidden" id="tripModal">
+    <div class="modal">
+      <button class="modal-close" data-close>×</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>
