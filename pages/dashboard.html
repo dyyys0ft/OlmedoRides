@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - OlmedoRides</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="app-shell">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">O</div>
+                <span class="sidebar-title">OlmedoRides</span>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Principal</div>
+                    <a href="dashboard.html" class="nav-item active">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                        Dashboard
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">Gestión</div>
+                    <a href="travels.html" class="nav-item">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                        Viajes
+                    </a>
+                    <a href="cars.html" class="nav-item">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 17h2c.6 0 1-.4 1-1v-3h-3c-.6 0-1-.4-1-1V7h1V4h-2v1H7V4H5v2H2v2h2v3c0 .6.4 1 1 1h3v3h3v3H7v2h12v-2h2v-3h-3c-.6 0-1-.4-1-1v-3h3c.6 0 1-.4 1-1v-2h-2v-1h-2z"></path><circle cx="7" cy="17" r="2"></circle><circle cx="17" cy="17" r="2"></circle></svg>
+                        Vehículos
+                    </a>
+                    <a href="drivers.html" class="nav-item">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        Conductores
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">Reportes</div>
+                    <a href="bookings.html" class="nav-item">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                        Reservas
+                    </a>
+                </div>
+                <div class="nav-section" id="adminSection" style="display:none;">
+                    <div class="nav-section-title">Administración</div>
+                    <a href="users.html" class="nav-item">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                        Usuarios y roles
+                    </a>
+                </div>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <a href="#" class="nav-item" id="logoutBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                    Cerrar Sesión
+                </a>
+            </div>
+        </aside>
+        
+        <!-- Overlay for mobile -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Topbar -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button class="menu-toggle" id="menuToggle">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                    </button>
+                    <h1 class="page-title">Dashboard</h1>
+                </div>
+                
+                <div class="topbar-right">
+                    <div class="user-menu">
+                        <button class="user-btn" id="userBtn">
+                            <div class="user-avatar" id="userAvatar">U</div>
+                            <div>
+                                <div class="user-name" id="userName">Usuario</div>
+                                <div class="user-role" id="userRole">Rol</div>
+                            </div>
+                        </button>
+                        <div class="dropdown" id="userDropdown">
+                            <a href="profile.html" class="dropdown-item">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                Mi Perfil
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item" id="logoutDropdown">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                                Cerrar Sesión
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Page Content -->
+            <div class="page-content">
+                <!-- Stats Cards -->
+                <div class="stats-grid" id="statsGrid">
+                    <div class="stat-card">
+                        <div class="stat-icon primary">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="totalTravels">0</div>
+                            <div class="stat-label">Total Viajes</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon info">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="totalDrivers">0</div>
+                            <div class="stat-label">Conductores</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon warning">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 17h2c.6 0 1-.4 1-1v-3h-3c-.6 0-1-.4-1-1V7h1V4h-2v1H7V4H5v2H2v2h2v3c0 .6.4 1 1 1h3v3h3v3H7v2h12v-2h2v-3h-3c-.6 0-1-.4-1-1v-3h3c.6 0 1-.4 1-1v-2h-2z"></path><circle cx="7" cy="17" r="2"></circle><circle cx="17" cy="17" r="2"></circle></svg>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="totalCars">0</div>
+                            <div class="stat-label">Vehículos</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon success">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="totalBookings">0</div>
+                            <div class="stat-label">Reservas</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Earnings -->
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <div class="card-header" style="display:flex; justify-content:space-between; align-items:center; gap:1rem; flex-wrap:wrap;">
+                        <div>
+                            <h3 style="margin:0;">Dashboard de ganancias</h3>
+                            <p style="margin:.25rem 0 0; font-size:.8125rem; color:var(--text-light);">Calculado con el precio de cada asiento reservado.</p>
+                        </div>
+                        <span class="badge badge-gray" id="earningsTripsCount">0 viajes con reservas</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="stats-grid" style="margin-bottom: 1.5rem;">
+                            <div class="stat-card">
+                                <div class="stat-icon success">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-value" id="earningsTotal" style="font-size:1.6rem;">$0.00</div>
+                                    <div class="stat-label">Ingresos generados</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon primary">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-value" id="earningsConfirmed" style="font-size:1.6rem;">$0.00</div>
+                                    <div class="stat-label">Reservas confirmadas</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon warning">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-value" id="earningsPending" style="font-size:1.6rem;">$0.00</div>
+                                    <div class="stat-label">Pendiente de cobro</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon info">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-value" id="earningsAvg" style="font-size:1.6rem;">$0.00</div>
+                                    <div class="stat-label">Ticket promedio</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="table-container">
+                            <table class="table">
+                                <thead>
+                                    <tr><th>Código</th><th>Viaje</th><th>Reservas</th><th>Precio base</th><th>Ingresos</th><th>Pendiente</th><th>Participación</th></tr>
+                                </thead>
+                                <tbody id="earningsBody">
+                                    <tr><td colspan="7" class="empty-state" style="padding:2rem;"><div class="loading"></div><p style="margin-top:.75rem;">Calculando ganancias...</p></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <div class="card-header">
+                        <h3 style="margin: 0;">Acciones Rápidas</h3>
+                    </div>
+                    <div class="card-body" style="display: flex; flex-wrap: wrap; gap: 1rem;">
+                        <a href="travels.html?new=1" class="btn btn-primary">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            Nuevo Viaje
+                        </a>
+                        <a href="cars.html?new=1" class="btn btn-secondary">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            Nuevo Vehículo
+                        </a>
+                        <a href="register.html" target="_blank" rel="noopener" class="btn btn-secondary">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            Registrar Conductor
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Upcoming Travels -->
+                <div class="card">
+                    <div class="card-header">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <h3 style="margin: 0;">Próximos Viajes</h3>
+                            <a href="travels.html" class="btn btn-sm btn-outline">Ver todos</a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-container">
+                            <table class="table" id="upcomingTravelsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Código</th>
+                                        <th>Viaje</th>
+                                        <th>Ruta</th>
+                                        <th>Salida</th>
+                                        <th>Conductor</th>
+                                        <th>Vehículo</th>
+                                        <th>Estado</th>
+                                        <th>Asientos</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="upcomingTravelsBody">
+                                    <tr>
+                                        <td colspan="8" class="empty-state" style="padding: 2rem;">
+                                            <div class="empty-icon">
+                                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                                            </div>
+                                            <div class="empty-title">No hay viajes programados</div>
+                                            <p style="font-size: 0.875rem;">Crea tu primer viaje para comenzar</p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script type="module">
+        import { supabase, getSession, getMyProfile, logout, roleLabel, isStaff, formatCurrency, escapeHtml } from '../js/olmedorides.js';
+        
+        // Auth check
+        async function checkAuth() {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (!session) {
+                window.location.href = 'login.html';
+                return null;
+            }
+            
+            const { data: profile } = await supabase
+                .from('profiles')
+                .select('role, full_name')
+                .eq('id', session.user.id)
+                .single();
+            
+            if (!profile || !['admin', 'secretary'].includes(profile.role)) {
+                window.location.href = 'my-travels.html';
+                return null;
+            }
+            
+            return { session, profile };
+        }
+        
+        async function loadDashboard() {
+            const auth = await checkAuth();
+            if (!auth) return;
+            
+            // Update user info
+            document.getElementById('userName').textContent = auth.profile.full_name || 'Usuario';
+            document.getElementById('userRole').textContent = roleLabel(auth.profile.role);
+            document.getElementById('userAvatar').textContent = (auth.profile.full_name || 'U')[0].toUpperCase();
+            if (auth.profile.role === 'admin') {
+                document.getElementById('adminSection').style.display = 'block';
+            }
+            
+            // Load stats
+            await loadStats();
+            await loadEarnings();
+            await loadUpcomingTravels();
+        }
+        
+        async function loadStats() {
+            try {
+                const [travels, drivers, cars, bookings] = await Promise.all([
+                    supabase.from('travels').select('id', { count: 'exact', head: true }),
+                    supabase.from('drivers').select('id', { count: 'exact', head: true }),
+                    supabase.from('cars').select('id', { count: 'exact', head: true }).eq('is_active', true),
+                    supabase.from('bookings').select('id', { count: 'exact', head: true })
+                ]);
+                
+                document.getElementById('totalTravels').textContent = travels.count || 0;
+                document.getElementById('totalDrivers').textContent = drivers.count || 0;
+                document.getElementById('totalCars').textContent = cars.count || 0;
+                document.getElementById('totalBookings').textContent = bookings.count || 0;
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+        
+        async function loadEarnings() {
+            const body = document.getElementById('earningsBody');
+            try {
+                const { data, error } = await supabase.from('bookings').select(`
+                    id, travel_id, total_price, status, payment_status, created_at,
+                    travel:travels(travel_code, title, source_city, destination_city, price_per_seat),
+                    seat:seats(seat_number)
+                `).order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                const bookings = (data || []).filter(b => b.status !== 'cancelled');
+                const total = bookings.reduce((sum, b) => sum + (Number(b.total_price) || 0), 0);
+                const confirmed = bookings
+                    .filter(b => b.status === 'confirmed' || b.status === 'completed')
+                    .reduce((sum, b) => sum + (Number(b.total_price) || 0), 0);
+                const pending = bookings
+                    .filter(b => b.status === 'confirmed' && b.payment_status === 'pending')
+                    .reduce((sum, b) => sum + (Number(b.total_price) || 0), 0);
+                const avg = bookings.length ? total / bookings.length : 0;
+
+                document.getElementById('earningsTotal').textContent = formatCurrency(total);
+                document.getElementById('earningsConfirmed').textContent = formatCurrency(confirmed);
+                document.getElementById('earningsPending').textContent = formatCurrency(pending);
+                document.getElementById('earningsAvg').textContent = formatCurrency(avg);
+
+                const byTravel = new Map();
+                for (const booking of bookings) {
+                    if (!byTravel.has(booking.travel_id)) {
+                        byTravel.set(booking.travel_id, {
+                            travel: booking.travel,
+                            count: 0,
+                            total: 0,
+                            pending: 0
+                        });
+                    }
+                    const entry = byTravel.get(booking.travel_id);
+                    entry.count += 1;
+                    entry.total += Number(booking.total_price) || 0;
+                    if (booking.payment_status === 'pending') {
+                        entry.pending += Number(booking.total_price) || 0;
+                    }
+                }
+
+                const entries = [...byTravel.values()].sort((a, b) => b.total - a.total);
+                document.getElementById('earningsTripsCount').textContent =
+                    `${entries.length} viaje${entries.length !== 1 ? 's' : ''} con reservas`;
+
+                if (!entries.length) {
+                    body.innerHTML = `
+                        <tr><td colspan="7" class="empty-state" style="padding:2rem;">
+                            <div class="empty-title">Todavía no hay ganancias</div>
+                            <p style="font-size:.875rem;">Las reservas confirmadas aparecerán aquí.</p>
+                        </td></tr>`;
+                    return;
+                }
+
+                const max = Math.max(...entries.map(entry => entry.total), 1);
+                body.innerHTML = entries.map(entry => {
+                    const travel = entry.travel;
+                    const percent = Math.round((entry.total / max) * 100);
+                    return `
+                        <tr>
+                            <td><span class="travel-code">${escapeHtml(travel?.travel_code || '—')}</span></td>
+                            <td>
+                                <strong>${escapeHtml(travel?.title || 'Viaje')}</strong><br>
+                                <small style="color:var(--text-light);">${escapeHtml(travel?.source_city || '')} → ${escapeHtml(travel?.destination_city || '')}</small>
+                            </td>
+                            <td>${entry.count}</td>
+                            <td>${formatCurrency(travel?.price_per_seat || 0)}</td>
+                            <td><strong style="color:var(--primary);">${formatCurrency(entry.total)}</strong></td>
+                            <td>${formatCurrency(entry.pending)}</td>
+                            <td>
+                                <div class="revenue-bar" title="${percent}% del viaje con más ingresos">
+                                    <span style="width:${percent}%"></span>
+                                </div>
+                            </td>
+                        </tr>`;
+                }).join('');
+            } catch (error) {
+                console.error('Error loading earnings:', error);
+                body.innerHTML = `<tr><td colspan="7" class="alert alert-error">${escapeHtml(error.message)}</td></tr>`;
+            }
+        }
+
+        async function loadUpcomingTravels() {
+            try {
+                const { data, error } = await supabase
+                    .from('travels')
+                    .select(`
+                        *,
+                        driver:drivers(profiles(full_name)),
+                        car:cars(brand, model, license_plate),
+                        seats:seats(status)
+                    `)
+                    .gte('departure_time', new Date().toISOString())
+                    .in('status', ['scheduled', 'in_progress'])
+                    .order('departure_time', { ascending: true })
+                    .limit(10);
+                
+                if (error) throw error;
+                
+                const tbody = document.getElementById('upcomingTravelsBody');
+                
+                if (!data || data.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="8" class="empty-state" style="padding: 2rem;">
+                                <div class="empty-icon">
+                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                                </div>
+                                <div class="empty-title">No hay viajes programados</div>
+                                <p style="font-size: 0.875rem;">Crea tu primer viaje para comenzar</p>
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                tbody.innerHTML = data.map(travel => {
+                    const availableSeats = travel.seats?.filter(s => s.status === 'available').length || 0;
+                    const totalSeats = travel.seats?.length || travel.car?.total_seats || 0;
+                    const occupiedSeats = travel.seats?.filter(s => s.status !== 'available').length || 0;
+                    
+                    return `
+                        <tr>
+                            <td><span class="travel-code">${travel.travel_code || '—'}</span></td>
+                            <td><strong>${travel.title || 'Sin título'}</strong></td>
+                            <td>${travel.source_city} → ${travel.destination_city}</td>
+                            <td>${formatDateTime(travel.departure_time)}</td>
+                            <td>${travel.driver?.profiles?.full_name || 'Sin asignar'}</td>
+                            <td>${travel.car ? `${travel.car.brand} ${travel.car.model} (${travel.car.license_plate})` : 'Sin asignar'}</td>
+                            <td><span class="badge badge-${getStatusBadge(travel.status)}">${travel.status}</span></td>
+                            <td>${occupiedSeats}/${totalSeats} (${availableSeats} libres)</td>
+                        </tr>
+                    `;
+                }).join('');
+                
+            } catch (error) {
+                console.error('Error loading travels:', error);
+            }
+        }
+        
+        function formatDateTime(isoString) {
+            const date = new Date(isoString);
+            return date.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
+        }
+        
+        function getStatusBadge(status) {
+            const badges = {
+                'scheduled': 'info',
+                'in_progress': 'warning',
+                'completed': 'success',
+                'cancelled': 'danger'
+            };
+            return badges[status] || 'gray';
+        }
+        
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', async (e) => {
+            e.preventDefault();
+            await supabase.auth.signOut();
+            localStorage.clear();
+            window.location.href = 'login.html';
+        });
+        
+        document.getElementById('logoutDropdown').addEventListener('click', async (e) => {
+            e.preventDefault();
+            await supabase.auth.signOut();
+            localStorage.clear();
+            window.location.href = 'login.html';
+        });
+        
+        // Initialize
+        loadDashboard();
+    </script>
+</body>
+</html>

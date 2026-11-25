@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - OlmedoRides</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="auth-page">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="auth-logo">O</div>
+                <h1 class="auth-title">Bienvenido a OlmedoRides</h1>
+                <p class="auth-subtitle">Entra con tu cuenta de Google para continuar</p>
+            </div>
+
+            <button type="button" class="btn btn-google btn-full btn-lg" id="googleBtn">
+                <svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true">
+                    <path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303C33.654 32.657 29.223 36 24 36c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/>
+                    <path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/>
+                    <path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238C29.211 35.091 26.715 36 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/>
+                    <path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303c-.792 2.237-2.231 4.166-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/>
+                </svg>
+                Continuar con Google
+            </button>
+
+            <div class="auth-divider">o con correo</div>
+
+            <form id="loginForm" novalidate>
+                <div class="form-group">
+                    <label class="label" for="email">Correo o usuario</label>
+                    <input type="text" id="email" name="email" class="input" placeholder="tu@gmail.com, adm!n o user" required autocomplete="username">
+                    <div class="form-error" data-error-for="email"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="label" for="password">Contraseña</label>
+                    <input type="password" id="password" name="password" class="input" placeholder="••••••••" required autocomplete="current-password">
+                    <div class="form-error" data-error-for="password"></div>
+                </div>
+
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="remember" name="remember" class="checkbox">
+                    <label for="remember" style="font-size: 0.875rem; cursor: pointer;">Recordarme</label>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full btn-lg" id="loginBtn">Iniciar Sesión</button>
+            </form>
+
+            <div class="auth-note" id="adminNote">
+                <strong>Accesos de prueba:</strong> admin <code>adm!n</code> / <code>12345</code> y usuario <code>user</code> / <code>1234</code>.
+                En Supabase se crean al ejecutar <code>sql/schema.sql</code>.
+            </div>
+
+            <div id="demoPanel" class="demo-panel" hidden>
+                <div class="auth-divider">Modo demo local</div>
+                <p style="font-size: 0.8125rem; color: var(--text-light); margin-bottom: 0.875rem;">
+                    Sin Supabase ni internet. Los datos de prueba se guardan solo en este navegador.
+                </p>
+                <div id="demoRoleButtons" class="demo-role-grid"></div>
+                <button type="button" class="btn btn-outline btn-full" id="resetDemoBtn" style="margin-top: 0.75rem;">
+                    Reiniciar datos demo
+                </button>
+            </div>
+
+            <div class="auth-footer">
+                <p>¿No tienes cuenta? <a href="register.html">Regístrate como conductor o usuario</a></p>
+                <p style="margin-top: 0.5rem;"><a href="forgot-password.html" style="font-size: 0.875rem;">¿Olvidaste tu contraseña?</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import {
+            CONFIG, supabase, getMyProfile, completeRegistration,
+            redirectByRole, showToast, isConfigured,
+            DEMO_MODE, DEMO_ACCOUNTS, resetDemoData
+        } from '../js/olmedorides.js';
+
+        const form = document.getElementById('loginForm');
+        const loginBtn = document.getElementById('loginBtn');
+        const googleBtn = document.getElementById('googleBtn');
+        const demoPanel = document.getElementById('demoPanel');
+        const demoRoleButtons = document.getElementById('demoRoleButtons');
+
+        if (DEMO_MODE) {
+            setupDemoPanel();
+        }
+
+        if (!isConfigured && !DEMO_MODE) {
+            showToast(
+                'Falta configurar Supabase: edita <strong>js/olmedorides.js</strong> con tu URL y anon key. Consulta DEPLOYMENT.md.',
+                'warning',
+                12000
+            );
+        }
+
+        function setupDemoPanel() {
+            demoPanel.hidden = false;
+            const adminNote = document.getElementById('adminNote');
+            if (adminNote) {
+                adminNote.innerHTML = '<strong>Modo demo:</strong> admin <code>adm!n</code> / <code>12345</code> · ' +
+                    'usuario <code>user</code> / <code>1234</code>. También puedes usar los botones de abajo.';
+            }
+            demoRoleButtons.innerHTML = DEMO_ACCOUNTS.map(account => `
+                <button type="button" class="btn btn-secondary demo-role-btn" data-email="${account.email}" title="${account.description}">
+                    ${account.label}
+                </button>
+            `).join('');
+
+            demoRoleButtons.querySelectorAll('.demo-role-btn').forEach(btn => {
+                btn.addEventListener('click', () => demoLogin(btn.dataset.email));
+            });
+
+            document.getElementById('resetDemoBtn').addEventListener('click', () => {
+                if (confirm('¿Reiniciar todos los datos demo de este navegador?')) {
+                    resetDemoData();
+                }
+            });
+        }
+
+        async function demoLogin(email) {
+            const account = DEMO_ACCOUNTS.find(a => a.email === email);
+            if (!account) return;
+
+            try {
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email: account.email,
+                    password: account.password
+                });
+                if (error) throw error;
+
+                const profile = await getMyProfile();
+                localStorage.setItem('user', JSON.stringify(data.user));
+                localStorage.setItem('session', JSON.stringify(data.session));
+                localStorage.setItem('userRole', profile.role);
+
+                showToast(`Entrando como <strong>${account.label}</strong>...`, 'success', 1200);
+                setTimeout(() => redirectByRole(profile.role), 350);
+            } catch (error) {
+                showToast(error.message, 'error');
+            }
+        }
+
+        // Si no venimos de Google, descartamos cualquier rol pendiente antiguo.
+        if (new URLSearchParams(window.location.search).get('oauth') !== '1') {
+            localStorage.removeItem('pendingRole');
+        }
+
+        googleBtn.addEventListener('click', async () => {
+            const role = new URLSearchParams(window.location.search).get('role') || '';
+            if (role) localStorage.setItem('pendingRole', role);
+            try {
+                googleBtn.disabled = true;
+                googleBtn.innerHTML = '<span class="loading"></span> Conectando con Google...';
+                const { error } = await supabase.auth.signInWithOAuth({
+                    provider: 'google',
+                    options: { redirectTo: new URL('login.html?oauth=1', window.location.href).toString() }
+                });
+                if (error) throw error;
+            } catch (error) {
+                showToast(error.message, 'error');
+                googleBtn.disabled = false;
+                googleBtn.innerHTML = 'Continuar con Google';
+            }
+        });
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            clearErrors();
+
+            const identifier = form.email.value.trim();
+            const password = form.password.value;
+            let hasError = false;
+
+            if (!identifier) {
+                showError('email', 'El correo o usuario es obligatorio');
+                hasError = true;
+            }
+            if (!password) {
+                showError('password', 'La contraseña es obligatoria');
+                hasError = true;
+            }
+            if (hasError) return;
+
+            const normalized = identifier.toLowerCase();
+            const isAdminAlias = normalized === CONFIG.adminAlias.toLowerCase();
+            const isUserAlias = normalized === (CONFIG.userAlias || 'user').toLowerCase();
+            const email = isAdminAlias
+                ? CONFIG.adminEmail
+                : isUserAlias
+                    ? CONFIG.userEmail
+                    : identifier;
+
+            if (!isAdminAlias && !isUserAlias && !validateEmail(email)) {
+                showError('email', 'Correo inválido. Usa adm!n o user para las cuentas de prueba.');
+                return;
+            }
+
+            showLoading(loginBtn, true);
+
+            try {
+                const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+                if (error) throw error;
+
+                localStorage.setItem('user', JSON.stringify(data.user));
+                localStorage.setItem('session', JSON.stringify(data.session));
+
+                const profile = await getMyProfile();
+                if (!profile) throw new Error('No se encontró el perfil del usuario');
+
+                localStorage.setItem('userRole', profile.role);
+                showToast('Inicio de sesión exitoso', 'success');
+                setTimeout(() => redirectByRole(profile.role), 500);
+            } catch (error) {
+                const msg = isAdminAlias
+                    ? `${error.message}. Verifica que hayas ejecutado sql/schema.sql para crear la cuenta admin.`
+                    : isUserAlias
+                        ? `${error.message}. Verifica la cuenta de prueba user/1234.`
+                        : error.message;
+                showToast(msg, 'error');
+            } finally {
+                showLoading(loginBtn, false);
+            }
+        });
+
+        // Al volver de Google, Supabase deja la sesión en la URL.
+        async function handleOAuthReturn() {
+            if (new URLSearchParams(window.location.search).get('switch') === '1') return;
+
+            let session = null;
+            try {
+                const result = await supabase.auth.getSession();
+                session = result.data.session;
+            } catch (error) {
+                console.warn('No se pudo comprobar la sesión de Supabase:', error.message);
+                return;
+            }
+            if (!session) return;
+            try {
+                let profile = await getMyProfile();
+                if (!profile) return;
+
+                const params = new URLSearchParams(window.location.search);
+                const requestedRole = params.get('role') || localStorage.getItem('pendingRole');
+
+                // Un usuario nuevo de Google puede quedar como traveler; si vino
+                // desde "Registrarme como conductor", lo elevamos a driver.
+                if (requestedRole === 'driver' && profile.role === 'traveler') {
+                    await completeRegistration('driver');
+                    profile = await getMyProfile();
+                }
+
+                localStorage.removeItem('pendingRole');
+                localStorage.setItem('user', JSON.stringify(session.user));
+                localStorage.setItem('session', JSON.stringify(session));
+                localStorage.setItem('userRole', profile.role);
+
+                if (params.get('oauth') === '1') {
+                    const cleanUrl = new URL(window.location.href);
+                    cleanUrl.search = '';
+                    window.history.replaceState({}, '', cleanUrl.toString());
+                }
+
+                redirectByRole(profile.role);
+            } catch (error) {
+                showToast(error.message, 'error');
+            }
+        }
+
+        function showError(field, message) {
+            const errorEl = form.querySelector(`[data-error-for="${field}"]`);
+            const input = form.querySelector(`[name="${field}"]`);
+            if (errorEl) { errorEl.textContent = message; errorEl.classList.add('visible'); }
+            if (input) input.style.borderColor = 'var(--danger)';
+        }
+
+        function clearErrors() {
+            form.querySelectorAll('.form-error').forEach(el => el.classList.remove('visible'));
+            form.querySelectorAll('.input').forEach(el => el.style.borderColor = '');
+        }
+
+        function validateEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        function showLoading(btn, loading) {
+            if (loading) {
+                btn.disabled = true;
+                btn.dataset.txt = btn.innerHTML;
+                btn.innerHTML = '<span class="loading"></span> Iniciando...';
+            } else {
+                btn.disabled = false;
+                btn.innerHTML = btn.dataset.txt || 'Iniciar Sesión';
+            }
+        }
+
+        handleOAuthReturn();
+    </script>
+</body>
+</html>

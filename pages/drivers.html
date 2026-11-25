@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Conductores - OlmedoRides</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header"><div class="sidebar-logo">O</div><span class="sidebar-title">OlmedoRides</span></div>
+            <nav class="sidebar-nav">
+                <div class="nav-section"><div class="nav-section-title">Principal</div><a href="dashboard.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard</a></div>
+                <div class="nav-section"><div class="nav-section-title">Gestión</div>
+                    <a href="travels.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>Viajes</a>
+                    <a href="cars.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 17h2c.6 0 1-.4 1-1v-3h-3c-.6 0-1-.4-1-1V7h1V4h-2v1H7V4H5v2H2v2h2v3c0 .6.4 1 1 1h3v3h3v3H7v2h12v-2h2v-3h-3c-.6 0-1-.4-1-1v-3h3c.6 0 1-.4 1-1v-2h-2z"></path><circle cx="7" cy="17" r="2"></circle><circle cx="17" cy="17" r="2"></circle></svg>Vehículos</a>
+                    <a href="drivers.html" class="nav-item active"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>Conductores</a>
+                </div>
+                <div class="nav-section"><div class="nav-section-title">Reportes</div><a href="bookings.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path></svg>Reservas</a></div>
+            </nav>
+            <div class="sidebar-footer"><a href="#" class="nav-item" id="logoutBtn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>Cerrar Sesión</a></div>
+        </aside>
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+        
+        <main class="main-content">
+            <header class="topbar">
+                <div class="topbar-left"><button class="menu-toggle" id="menuToggle"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button><h1 class="page-title">Gestión de Conductores</h1></div>
+                <div class="topbar-right"><div class="user-menu"><button class="user-btn" id="userBtn"><div class="user-avatar" id="userAvatar">U</div><div><div class="user-name" id="userName">Usuario</div><div class="user-role" id="userRole">Rol</div></div></button><div class="dropdown" id="userDropdown"><a href="profile.html" class="dropdown-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>Mi Perfil</a><div class="dropdown-divider"></div><a href="#" class="dropdown-item" id="logoutDropdown"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>Cerrar Sesión</a></div></div></div>
+            </header>
+            
+            <div class="page-content">
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <div class="card-body" style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between;">
+                        <input type="text" id="searchInput" class="input" placeholder="Buscar conductores..." style="width: 300px;">
+                        <a href="register.html" target="_blank" rel="noopener" class="btn btn-primary"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>Registrar conductor</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body" style="padding: 0;">
+                        <div class="table-container">
+                            <table class="table">
+                                <thead>
+                                    <tr><th>Foto</th><th>Nombre</th><th>Email</th><th>Teléfono</th><th>Licencia</th><th>Vehículo</th><th>Rating</th><th>Viajes</th><th>Estado</th><th>Acciones</th></tr>
+                                </thead>
+                                <tbody id="driversBody"><tr><td colspan="10" class="empty-state" style="padding: 3rem;"><div class="loading"></div><p style="margin-top: 1rem;">Cargando...</p></td></tr></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Driver Modal -->
+    <div class="modal-overlay" id="driverModal">
+        <div class="modal" style="max-width: 600px;">
+            <div class="modal-header"><h3 class="modal-title" id="driverModalTitle">Nuevo Conductor</h3><button class="modal-close" data-modal-close>&times;</button></div>
+            <form id="driverForm" class="modal-body">
+                <input type="hidden" name="id" id="driverId">
+                <input type="hidden" name="user_id" id="driverUserId">
+                
+                <div class="form-group">
+                    <label class="label">Información del usuario</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group"><label class="label" for="full_name">Nombre completo *</label><input type="text" name="full_name" id="full_name" class="input" required placeholder="Juan Pérez"></div>
+                        <div class="form-group"><label class="label" for="email">Email *</label><input type="email" name="email" id="email" class="input" required placeholder="juan@email.com"></div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group"><label class="label" for="phone">Teléfono</label><input type="tel" name="phone" id="phone" class="input" placeholder="+34 600 000 000"></div>
+                        <div class="form-group"><label class="label" for="password">Contraseña *</label><input type="password" name="password" id="password" class="input" placeholder="Mín. 6 caracteres" minlength="6"></div>
+                    </div>
+                    <p style="font-size: 0.8125rem; color: var(--text-light); margin-top: 0.5rem;">Deja la contraseña vacía para no cambiarla (al editar)</p>
+                </div>
+                
+                <hr style="margin: 1rem 0; border-color: var(--border);">
+                
+                <div class="form-group">
+                    <label class="label">Información de conductor</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group"><label class="label" for="license_number">Nº Licencia *</label><input type="text" name="license_number" id="license_number" class="input" required placeholder="B12345678"></div>
+                        <div class="form-group"><label class="label" for="license_expiry">Vencimiento licencia</label><input type="date" name="license_expiry" id="license_expiry" class="input"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="label" for="photo_url">Imagen del conductor (URL)</label>
+                        <input type="url" name="photo_url" id="photo_url" class="input" placeholder="https://.../conductor.jpg">
+                        <img id="driverPhotoPreview" class="image-preview" alt="Vista previa del conductor" hidden>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group"><label class="label" for="car_id">Vehículo asignado</label><select name="car_id" id="car_id" class="input select"><option value="">Sin asignar</option></select></div>
+                        <div class="form-group"><label class="label" for="is_available">Disponibilidad</label><div class="checkbox-group"><input type="checkbox" name="is_available" id="is_available" class="checkbox" checked><label for="is_available">Disponible para viajes</label></div></div>
+                    </div>
+                </div>
+                
+                <div class="modal-footer"><button type="button" class="btn btn-secondary" data-modal-close>Cancelar</button><button type="submit" class="btn btn-primary" id="saveDriverBtn">Guardar</button></div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Delete Modal -->
+    <div class="modal-overlay" id="deleteModal"><div class="modal"><div class="modal-header"><h3 class="modal-title">Eliminar Conductor</h3><button class="modal-close" data-modal-close>&times;</button></div><div class="modal-body"><p>¿Eliminar este conductor? Se desvinculará de su usuario pero el usuario permanecerá en el sistema.</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-modal-close>Cancelar</button><button type="button" class="btn btn-danger" id="confirmDeleteBtn">Eliminar</button></div></div></div>
+
+    <script type="module">
+        import { supabase } from '../js/olmedorides.js';
+        
+        let currentDriverId = null;
+        let carsCache = [];
+        
+        async function checkAuth() {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (!session) { window.location.href = 'login.html'; return null; }
+            const { data: profile } = await supabase.from('profiles').select('role, full_name').eq('id', session.user.id).single();
+            if (!profile || !['admin', 'secretary'].includes(profile.role)) { window.location.href = 'my-travels.html'; return null; }
+            return { session, profile };
+        }
+        
+        async function init() {
+            const auth = await checkAuth();
+            if (!auth) return;
+            
+            document.getElementById('userName').textContent = auth.profile.full_name || 'Usuario';
+            document.getElementById('userRole').textContent = auth.profile.role;
+            document.getElementById('userAvatar').textContent = (auth.profile.full_name || 'U')[0].toUpperCase();
+            
+            await loadCars();
+            await loadDrivers();
+            setupEventListeners();
+        }
+        
+        async function loadCars() {
+            const { data } = await supabase.from('cars').select('id, brand, model, license_plate').eq('is_active', true).order('brand');
+            carsCache = data || [];
+            const select = document.getElementById('car_id');
+            select.innerHTML = '<option value="">Sin asignar</option>' + carsCache.map(c => `<option value="${c.id}">${c.brand} ${c.model} (${c.license_plate})</option>`).join('');
+        }
+        
+        async function loadDrivers() {
+            const search = document.getElementById('searchInput').value;
+            let query = supabase.from('drivers').select(`
+                *, profiles(full_name, email, phone, avatar_url),
+                car:cars(brand, model, license_plate)
+            `).order('created_at', { ascending: false });
+            if (search) query = query.or(`license_number.ilike.%${search}%,profiles.full_name.ilike.%${search}%,profiles.email.ilike.%${search}%`);
+            
+            const { data, error } = await query;
+            if (error) { console.error(error); return; }
+            
+            renderDrivers(data || []);
+        }
+        
+        function renderDrivers(drivers) {
+            const tbody = document.getElementById('driversBody');
+            if (!drivers.length) {
+                tbody.innerHTML = `<tr><td colspan="10" class="empty-state" style="padding: 3rem;"><div class="empty-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div><div class="empty-title">No hay conductores</div></td></tr>`;
+                return;
+            }
+            tbody.innerHTML = drivers.map(d => `
+                <tr>
+                    <td>${(d.photo_url || d.profiles?.avatar_url) ? `<img src="${d.photo_url || d.profiles.avatar_url}" class="travel-thumb" alt="Conductor">` : '<div class="travel-thumb-fallback">Sin foto</div>'}</td>
+                    <td><strong>${d.profiles?.full_name || 'Sin nombre'}</strong></td>
+                    <td>${d.profiles?.email || '-'}</td>
+                    <td>${d.profiles?.phone || '-'}</td>
+                    <td><code style="font-size: 0.8125rem;">${d.license_number}</code></td>
+                    <td>${d.car ? `${d.car.brand} ${d.car.model} (${d.car.license_plate})` : '<span style="color: var(--text-light);">Sin asignar</span>'}</td>
+                    <td><span class="badge badge-primary">${d.rating || 5.0}</span></td>
+                    <td>${d.total_trips || 0}</td>
+                    <td><span class="badge badge-${d.is_available ? 'success' : 'gray'}">${d.is_available ? 'Disponible' : 'No disponible'}</span></td>
+                    <td>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-sm btn-outline edit-btn" data-id="${d.id}" title="Editar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button>
+                            <button class="btn btn-sm btn-outline delete-btn" data-id="${d.id}" title="Eliminar" style="color: var(--danger); border-color: var(--danger);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+        
+        function setupEventListeners() {
+            document.getElementById('searchInput').addEventListener('input', debounce(loadDrivers, 300));
+            document.getElementById('newDriverBtn')?.addEventListener('click', () => openDriverModal());
+            document.getElementById('driverForm').addEventListener('submit', saveDriver);
+            document.getElementById('photo_url').addEventListener('input', updateDriverPhotoPreview);
+            
+            document.getElementById('driversBody').addEventListener('click', e => {
+                const editBtn = e.target.closest('.edit-btn');
+                const deleteBtn = e.target.closest('.delete-btn');
+                if (editBtn) openDriverModal(editBtn.dataset.id);
+                if (deleteBtn) { currentDriverId = deleteBtn.dataset.id; document.getElementById('deleteModal').classList.add('show'); }
+            });
+            
+            document.getElementById('confirmDeleteBtn').addEventListener('click', deleteDriver);
+            document.getElementById('logoutBtn').addEventListener('click', logout);
+            document.getElementById('logoutDropdown').addEventListener('click', logout);
+        }
+        
+        function updateDriverPhotoPreview() {
+            const url = document.getElementById('photo_url').value.trim();
+            const img = document.getElementById('driverPhotoPreview');
+            if (url) {
+                img.src = url;
+                img.hidden = false;
+            } else {
+                img.hidden = true;
+                img.removeAttribute('src');
+            }
+        }
+        
+        function openDriverModal(id = null) {
+            const modal = document.getElementById('driverModal');
+            const form = document.getElementById('driverForm');
+            form.reset();
+            document.getElementById('driverId').value = '';
+            document.getElementById('driverUserId').value = '';
+            document.getElementById('is_available').checked = true;
+            document.getElementById('driverPhotoPreview').hidden = true;
+            document.getElementById('driverPhotoPreview').removeAttribute('src');
+            document.getElementById('password').required = !id;
+            clearErrors(form);
+            
+            if (id) {
+                document.getElementById('driverModalTitle').textContent = 'Editar Conductor';
+                document.getElementById('saveDriverBtn').textContent = 'Actualizar';
+                loadDriverForEdit(id);
+            } else {
+                document.getElementById('driverModalTitle').textContent = 'Nuevo Conductor';
+                document.getElementById('saveDriverBtn').textContent = 'Crear';
+            }
+            modal.classList.add('show');
+        }
+        
+        async function loadDriverForEdit(id) {
+            const { data, error } = await supabase.from('drivers').select(`
+                *, profiles(full_name, email, phone)
+            `).eq('id', id).single();
+            if (error) { console.error(error); return; }
+            
+            document.getElementById('driverId').value = data.id;
+            document.getElementById('driverUserId').value = data.id;
+            document.getElementById('full_name').value = data.profiles?.full_name || '';
+            document.getElementById('email').value = data.profiles?.email || '';
+            document.getElementById('phone').value = data.profiles?.phone || '';
+            document.getElementById('license_number').value = data.license_number;
+            document.getElementById('license_expiry').value = data.license_expiry ? data.license_expiry.slice(0, 10) : '';
+            document.getElementById('car_id').value = data.car_id || '';
+            document.getElementById('is_available').checked = data.is_available;
+            document.getElementById('photo_url').value = data.photo_url || '';
+            updateDriverPhotoPreview();
+            document.getElementById('password').required = false;
+            document.getElementById('password').placeholder = 'Deja vacío para no cambiar';
+        }
+        
+        async function saveDriver(e) {
+            e.preventDefault();
+            const form = e.target;
+            const btn = document.getElementById('saveDriverBtn');
+            const driverId = document.getElementById('driverId').value;
+            const userId = document.getElementById('driverUserId').value;
+            const isNew = !driverId;
+            
+            clearErrors(form);
+            
+            const profileData = {
+                full_name: form.full_name.value.trim(),
+                email: form.email.value.trim().toLowerCase(),
+                phone: form.phone.value.trim(),
+                role: 'driver'
+            };
+            const driverData = {
+                license_number: form.license_number.value.trim().toUpperCase(),
+                license_expiry: form.license_expiry.value || null,
+                car_id: form.car_id.value || null,
+                photo_url: form.photo_url.value.trim() || null,
+                is_available: form.is_available.checked
+            };
+            const password = form.password.value;
+            
+            let hasError = false;
+            if (!profileData.full_name) { showFieldError(form, 'full_name', 'Nombre obligatorio'); hasError = true; }
+            if (!profileData.email) { showFieldError(form, 'email', 'Email obligatorio'); hasError = true; }
+            else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(profileData.email)) { showFieldError(form, 'email', 'Email inválido'); hasError = true; }
+            if (!driverData.license_number) { showFieldError(form, 'license_number', 'Licencia obligatoria'); hasError = true; }
+            if (isNew && !password) { showFieldError(form, 'password', 'Contraseña obligatoria'); hasError = true; }
+            if (password && password.length < 6) { showFieldError(form, 'password', 'Mínimo 6 caracteres'); hasError = true; }
+            if (hasError) return;
+            
+            showLoading(btn, true);
+            try {
+                let finalUserId = userId;
+                
+                if (isNew) {
+                    const { data: authData, error: authError } = await supabase.auth.signUp({
+                        email: profileData.email,
+                        password,
+                        options: { data: { full_name: profileData.full_name, role: 'driver', phone: profileData.phone } }
+                    });
+                    if (authError) throw authError;
+                    finalUserId = authData.user.id;
+                    
+                    const { error: profileError } = await supabase.from('profiles').upsert({ id: finalUserId, ...profileData });
+                    if (profileError) throw profileError;
+                    
+                    driverData.id = finalUserId;
+                    const { error: driverError } = await supabase.from('drivers').insert(driverData);
+                    if (driverError) throw driverError;
+                    showAlert('Conductor creado', 'success');
+                } else {
+                    const { error: profileError } = await supabase.from('profiles').update(profileData).eq('id', userId);
+                    if (profileError) throw profileError;
+                    
+                    if (password) {
+                        showAlert('La contraseña del conductor se cambia desde su propio perfil.', 'info');
+                    }
+                    
+                    const { error: driverError } = await supabase.from('drivers').update(driverData).eq('id', driverId);
+                    if (driverError) throw driverError;
+                    showAlert('Conductor actualizado', 'success');
+                }
+                
+                document.getElementById('driverModal').classList.remove('show');
+                await loadDrivers();
+            } catch (error) { showAlert(error.message, 'error'); }
+            finally { showLoading(btn, false); }
+        }
+        
+        async function deleteDriver() {
+            if (!currentDriverId) return;
+            const btn = document.getElementById('confirmDeleteBtn');
+            showLoading(btn, true);
+            try {
+                const { error } = await supabase.from('drivers').delete().eq('id', currentDriverId);
+                if (error) throw error;
+                showAlert('Conductor eliminado', 'success');
+                document.getElementById('deleteModal').classList.remove('show');
+                await loadDrivers();
+            } catch (error) { showAlert(error.message, 'error'); }
+            finally { showLoading(btn, false); }
+        }
+        
+        async function logout(e) { e.preventDefault(); await supabase.auth.signOut(); window.location.href = 'login.html'; }
+        
+        function debounce(fn, ms) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; }
+        function showLoading(btn, l) { if (l) { btn.disabled = true; btn.dataset.t = btn.innerHTML; btn.innerHTML = '<span class="loading"></span> Guardando...'; } else { btn.disabled = false; btn.innerHTML = btn.dataset.t || btn.innerHTML; } }
+        function showAlert(m, t) { const a = document.createElement('div'); a.className = `alert alert-${t}`; a.style.cssText = 'position:fixed;top:1rem;right:1rem;z-index:1100;max-width:400px'; a.innerHTML = m; document.body.appendChild(a); setTimeout(() => { a.style.opacity = '0'; setTimeout(() => a.remove(), 300); }, 4000); }
+        function clearErrors(f) { f.querySelectorAll('.form-error').forEach(e => e.classList.remove('visible')); f.querySelectorAll('.input, .select, .textarea').forEach(e => e.style.borderColor = ''); }
+        function showFieldError(f, field, msg) { const el = f.querySelector(`[name="${field}"]`); let err = f.querySelector(`[data-error-for="${field}"]`); if (!err) { err = document.createElement('div'); err.className = 'form-error'; err.dataset.errorFor = field; el.parentNode.appendChild(err); } err.textContent = msg; err.classList.add('visible'); if (el) el.style.borderColor = 'var(--danger)'; }
+        
+        document.querySelectorAll('[data-modal-close]').forEach(b => b.addEventListener('click', () => b.closest('.modal-overlay').classList.remove('show')));
+        document.querySelectorAll('.modal-overlay').forEach(o => o.addEventListener('click', e => { if (e.target === o) o.classList.remove('show'); }));
+        
+        init();
+    </script>
+</body>
+</html>

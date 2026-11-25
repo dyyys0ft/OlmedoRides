@@ -1,0 +1,10 @@
+{
+  "name": "olmedorides",
+  "version": "2.0.0",
+  "private": true,
+  "description": "OlmedoRides - gestión de viajes, asientos y reservas",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "npx serve . -l 3000"
+  }
+}

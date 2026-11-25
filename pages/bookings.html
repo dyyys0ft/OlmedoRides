@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Reservas - OlmedoRides</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header"><div class="sidebar-logo">O</div><span class="sidebar-title">OlmedoRides</span></div>
+            <nav class="sidebar-nav">
+                <div class="nav-section"><div class="nav-section-title">Principal</div><a href="dashboard.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard</a></div>
+                <div class="nav-section"><div class="nav-section-title">Gestión</div>
+                    <a href="travels.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>Viajes</a>
+                    <a href="cars.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 17h2c.6 0 1-.4 1-1v-3h-3c-.6 0-1-.4-1-1V7h1V4h-2v1H7V4H5v2H2v2h2v3c0 .6.4 1 1 1h3v3h3v3H7v2h12v-2h2v-3h-3c-.6 0-1-.4-1-1v-3h3c.6 0 1-.4 1-1v-2h-2z"></path><circle cx="7" cy="17" r="2"></circle><circle cx="17" cy="17" r="2"></circle></svg>Vehículos</a>
+                    <a href="drivers.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>Conductores</a>
+                </div>
+                <div class="nav-section"><div class="nav-section-title">Reportes</div><a href="bookings.html" class="nav-item active"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path></svg>Reservas</a></div>
+            </nav>
+            <div class="sidebar-footer"><a href="#" class="nav-item" id="logoutBtn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>Cerrar Sesión</a></div>
+        </aside>
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+        
+        <main class="main-content">
+            <header class="topbar">
+                <div class="topbar-left"><button class="menu-toggle" id="menuToggle"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button><h1 class="page-title">Gestión de Reservas</h1></div>
+                <div class="topbar-right"><div class="user-menu"><button class="user-btn" id="userBtn"><div class="user-avatar" id="userAvatar">U</div><div><div class="user-name" id="userName">Usuario</div><div class="user-role" id="userRole">Rol</div></div></button><div class="dropdown" id="userDropdown"><a href="profile.html" class="dropdown-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>Mi Perfil</a><div class="dropdown-divider"></div><a href="#" class="dropdown-item" id="logoutDropdown"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>Cerrar Sesión</a></div></div></div>
+            </header>
+            
+            <div class="page-content">
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <div class="card-body" style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
+                            <input type="text" id="searchInput" class="input" placeholder="Buscar por referencia, viajero..." style="width: 250px;">
+                            <select id="statusFilter" class="input select" style="width: 160px;">
+                                <option value="">Todos</option>
+                                <option value="confirmed">Confirmadas</option>
+                                <option value="cancelled">Canceladas</option>
+                                <option value="completed">Completadas</option>
+                                <option value="pending">Pendientes</option>
+                            </select>
+                            <select id="paymentFilter" class="input select" style="width: 160px;">
+                                <option value="">Pago: Todos</option>
+                                <option value="paid">Pagado</option>
+                                <option value="pending">Pendiente</option>
+                                <option value="refunded">Reembolsado</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body" style="padding: 0;">
+                        <div class="table-container">
+                            <table class="table">
+                                <thead>
+                                    <tr><th>Código viaje</th><th>Referencia</th><th>Viajero</th><th>Viaje</th><th>Ruta</th><th>Fecha</th><th>Asiento</th><th>Equipaje</th><th>Precio</th><th>Estado</th><th>Pago</th><th>Fecha Reserva</th></tr>
+                                </thead>
+                                <tbody id="bookingsBody"><tr><td colspan="12" class="empty-state" style="padding: 3rem;"><div class="loading"></div><p style="margin-top: 1rem;">Cargando...</p></td></tr></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Detail Modal -->
+    <div class="modal-overlay" id="detailModal"><div class="modal" style="max-width: 700px;"><div class="modal-header"><h3 class="modal-title">Detalle de Reserva</h3><button class="modal-close" data-modal-close>&times;</button></div><div class="modal-body" id="detailBody"><div class="loading" style="display: block; margin: 2rem auto;"></div></div></div></div>
+
+    <script type="module">
+        import { supabase, seatPositionLabel } from '../js/olmedorides.js';
+        
+        async function checkAuth() {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (!session) { window.location.href = 'login.html'; return null; }
+            const { data: profile } = await supabase.from('profiles').select('role, full_name').eq('id', session.user.id).single();
+            if (!profile || !['admin', 'secretary'].includes(profile.role)) { window.location.href = 'my-travels.html'; return null; }
+            return { session, profile };
+        }
+        
+        async function init() {
+            const auth = await checkAuth();
+            if (!auth) return;
+            
+            document.getElementById('userName').textContent = auth.profile.full_name || 'Usuario';
+            document.getElementById('userRole').textContent = auth.profile.role;
+            document.getElementById('userAvatar').textContent = (auth.profile.full_name || 'U')[0].toUpperCase();
+            
+            setupEventListeners();
+            await loadBookings();
+        }
+        
+        function setupEventListeners() {
+            document.getElementById('searchInput').addEventListener('input', debounce(loadBookings, 300));
+            document.getElementById('statusFilter').addEventListener('change', loadBookings);
+            document.getElementById('paymentFilter').addEventListener('change', loadBookings);
+            document.getElementById('logoutBtn').addEventListener('click', logout);
+            document.getElementById('logoutDropdown').addEventListener('click', logout);
+        }
+        
+        async function loadBookings() {
+            const search = document.getElementById('searchInput').value;
+            const status = document.getElementById('statusFilter').value;
+            const payment = document.getElementById('paymentFilter').value;
+            
+            let query = supabase.from('bookings').select(`
+                *, traveler:profiles(full_name, email, phone),
+                travel:travels(title, travel_code, source_city, destination_city, departure_time, status),
+                seat:seats(seat_number, seat_position)
+            `).order('created_at', { ascending: false });
+            
+            if (search) query = query.or(`booking_reference.ilike.%${search}%,traveler.full_name.ilike.%${search}%,traveler.email.ilike.%${search}%`);
+            if (status) query = query.eq('status', status);
+            if (payment) query = query.eq('payment_status', payment);
+            
+            const { data, error } = await query;
+            if (error) { console.error(error); return; }
+            
+            renderBookings(data || []);
+        }
+        
+        function renderBookings(bookings) {
+            const tbody = document.getElementById('bookingsBody');
+            if (!bookings.length) {
+                tbody.innerHTML = `<tr><td colspan="12" class="empty-state" style="padding: 3rem;"><div class="empty-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path></svg></div><div class="empty-title">No hay reservas</div></td></tr>`;
+                return;
+            }
+            
+            tbody.innerHTML = bookings.map(b => `
+                <tr>
+                    <td><span class="travel-code">${b.travel?.travel_code || '—'}</span></td>
+                    <td><code style="font-size: 0.8125rem;">${b.booking_reference}</code></td>
+                    <td><strong>${b.traveler?.full_name || 'N/A'}</strong><br><small style="color: var(--text-light);">${b.traveler?.email || ''}</small></td>
+                    <td>${b.travel?.title || 'N/A'}</td>
+                    <td>${b.travel?.source_city} → ${b.travel?.destination_city}</td>
+                    <td>${b.travel ? formatDateTime(b.travel.departure_time) : '-'}</td>
+                    <td><span class="badge badge-primary">A${b.seat?.seat_number || 'N/A'}${b.seat ? ` · ${seatPositionLabel(b.seat)}` : ''}</span></td>
+                    <td>${b.luggage_confirmed ? `Sí · ${Number(b.estimated_weight_kg || 0)} kg` : 'No'}</td>
+                    <td>${formatCurrency(b.total_price)}</td>
+                    <td><span class="badge badge-${getBookingStatusBadge(b.status)}">${b.status}</span></td>
+                    <td><span class="badge badge-${getPaymentBadge(b.payment_status)}">${b.payment_status}</span></td>
+                    <td>${formatDateTime(b.created_at)}</td>
+                </tr>
+            `).join('');
+        }
+        
+        function formatDateTime(iso) { if (!iso) return '-'; return new Date(iso).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }); }
+        function formatCurrency(a) { return new Intl.NumberFormat('es-EC', { style: 'currency', currency: 'USD' }).format(Number(a) || 0); }
+        function getBookingStatusBadge(s) { const m = { confirmed: 'success', cancelled: 'danger', completed: 'info', pending: 'warning' }; return m[s] || 'gray'; }
+        function getPaymentBadge(s) { const m = { paid: 'success', pending: 'warning', refunded: 'info' }; return m[s] || 'gray'; }
+        function debounce(fn, ms) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; }
+        
+        async function logout(e) { e.preventDefault(); await supabase.auth.signOut(); window.location.href = 'login.html'; }
+        
+        document.querySelectorAll('[data-modal-close]').forEach(b => b.addEventListener('click', () => b.closest('.modal-overlay').classList.remove('show')));
+        document.querySelectorAll('.modal-overlay').forEach(o => o.addEventListener('click', e => { if (e.target === o) o.classList.remove('show'); }));
+        
+        init();
+    </script>
+</body>
+</html>

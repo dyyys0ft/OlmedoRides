@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar Viajes - OlmedoRides</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header"><div class="sidebar-logo">O</div><span class="sidebar-title">OlmedoRides</span></div>
+            <nav class="sidebar-nav">
+                <div class="nav-section"><div class="nav-section-title">Principal</div>
+                    <a href="my-travels.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>Mis Viajes</a>
+                    <a href="my-bookings.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path></svg>Mis Reservas</a>
+                </div>
+                <div class="nav-section"><div class="nav-section-title">Disponibles</div>
+                    <a href="available-travels.html" class="nav-item active"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>Buscar Viajes</a>
+                </div>
+            </nav>
+            <div class="sidebar-footer"><a href="#" class="nav-item" id="logoutBtn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>Cerrar Sesión</a></div>
+        </aside>
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div class="topbar-left"><button class="menu-toggle" id="menuToggle"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button><h1 class="page-title">Buscar Viajes</h1></div>
+                <div class="topbar-right"><div class="user-menu"><button class="user-btn" id="userBtn"><div class="user-avatar" id="userAvatar">U</div><div><div class="user-name" id="userName">Usuario</div><div class="user-role" id="userRole">Usuario</div></div></button><div class="dropdown" id="userDropdown"><a href="profile.html" class="dropdown-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>Mi Perfil</a><div class="dropdown-divider"></div><a href="#" class="dropdown-item" id="logoutDropdown"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>Cerrar Sesión</a></div></div></div>
+            </header>
+
+            <div class="page-content">
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <div class="card-body">
+                        <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: end;">
+                            <div style="flex: 1; min-width: 180px;">
+                                <label class="label">Origen</label>
+                                <input type="text" id="filterOrigin" class="input" placeholder="Ciudad de salida" list="ecuadorCities">
+                            </div>
+                            <div style="flex: 1; min-width: 180px;">
+                                <label class="label">Destino</label>
+                                <input type="text" id="filterDestination" class="input" placeholder="Ciudad de llegada" list="ecuadorCities">
+                            </div>
+                            <datalist id="ecuadorCities"></datalist>
+                            <div style="min-width: 160px;">
+                                <label class="label">Desde</label>
+                                <input type="date" id="filterDateFrom" class="input">
+                            </div>
+                            <div style="min-width: 160px;">
+                                <label class="label">Hasta</label>
+                                <input type="date" id="filterDateTo" class="input">
+                            </div>
+                            <div>
+                                <button class="btn btn-primary" id="searchBtn" style="height: 42px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg> Buscar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header" style="display:flex; justify-content:space-between; align-items:center; gap:1rem;">
+                        <h3 style="margin:0;">Viajes con asientos libres</h3>
+                        <span id="resultsCount" class="badge badge-gray">0 viajes</span>
+                    </div>
+                    <div class="card-body" style="padding: 0;">
+                        <div id="travelsList">
+                            <div class="empty-state" style="padding: 3rem;"><div class="loading"></div><p style="margin-top: 1rem;">Buscando viajes...</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Seat + luggage modal -->
+    <div class="modal-overlay" id="seatModal">
+        <div class="modal" style="max-width: 620px;">
+            <div class="modal-header">
+                <h3 class="modal-title">Elegir asiento - <span id="modalTravelCode"></span></h3>
+                <button class="modal-close" data-modal-close>&times;</button>
+            </div>
+            <div class="modal-body" id="seatModalBody"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-modal-close>Cancelar</button>
+                <button type="button" class="btn btn-primary" id="confirmSeatBtn">Confirmar reserva</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script type="module">
+        import {
+            supabase, getSession, getMyProfile, logout, isStaff, roleLabel,
+            formatDate, formatCurrency, formatDuration, escapeHtml, showToast,
+            seatCabinHtml, seatLegendHtml, seatPositionLabel, seatPriceRange,
+            ECUADOR_CITIES, seatCode, DEMO_MODE
+        } from '../js/olmedorides.js';
+
+        let currentProfile = null;
+        let currentTravel = null;
+        let selectedSeat = null;
+        let myTravelIds = new Set();
+        let seatRefreshTimer = null;
+        let pickupMap = null;
+        let pickupMarker = null;
+        let currentPickup = null;
+        let otherPickup = null;
+
+        async function checkAuth() {
+            const session = await getSession();
+            if (!session) { window.location.href = 'login.html'; return null; }
+            const profile = await getMyProfile();
+            if (!profile) { window.location.href = 'login.html'; return null; }
+            if (isStaff(profile.role)) { window.location.href = 'dashboard.html'; return null; }
+            if (profile.role === 'driver') { window.location.href = 'my-travels.html'; return null; }
+            return { session, profile };
+        }
+
+        async function init() {
+            const auth = await checkAuth();
+            if (!auth) return;
+            currentProfile = auth.profile;
+
+            document.getElementById('userName').textContent = currentProfile.full_name || 'Usuario';
+            document.getElementById('userRole').textContent = roleLabel(currentProfile.role);
+            document.getElementById('userAvatar').textContent = (currentProfile.full_name || 'U')[0].toUpperCase();
+
+            document.getElementById('ecuadorCities').innerHTML =
+                ECUADOR_CITIES.map(city => `<option value="${escapeHtml(city)}"></option>`).join('');
+
+            const today = new Date().toISOString().split('T')[0];
+            const nextMonth = new Date();
+            nextMonth.setMonth(nextMonth.getMonth() + 1);
+            document.getElementById('filterDateFrom').value = today;
+            document.getElementById('filterDateTo').value = nextMonth.toISOString().split('T')[0];
+
+            setupEventListeners();
+            await loadMyBookings();
+            await searchTravels();
+        }
+
+        function setupEventListeners() {
+            document.getElementById('searchBtn').addEventListener('click', searchTravels);
+            ['filterOrigin', 'filterDestination'].forEach(id => {
+                document.getElementById(id).addEventListener('keypress', e => { if (e.key === 'Enter') searchTravels(); });
+            });
+            document.getElementById('filterDateFrom').addEventListener('change', searchTravels);
+            document.getElementById('filterDateTo').addEventListener('change', searchTravels);
+            document.getElementById('confirmSeatBtn').addEventListener('click', confirmBooking);
+            document.getElementById('logoutBtn').addEventListener('click', logout);
+            document.getElementById('logoutDropdown').addEventListener('click', logout);
+
+            document.getElementById('seatModalBody').addEventListener('click', (e) => {
+                const btn = e.target.closest('.seat.selectable');
+                if (!btn || btn.disabled) return;
+                document.querySelectorAll('#seatModalBody .seat.selected').forEach(el => el.classList.remove('selected'));
+                btn.classList.add('selected');
+                selectedSeat = {
+                    id: btn.dataset.seatId,
+                    number: parseInt(btn.dataset.seatNumber, 10),
+                    seat_number: parseInt(btn.dataset.seatNumber, 10),
+                    position: btn.dataset.seatPosition,
+                    seat_position: btn.dataset.seatPosition,
+                    price: parseFloat(btn.dataset.seatPrice) || 0
+                };
+                const label = document.getElementById('selectedSeatLabel');
+                if (label) {
+                    label.textContent = `${seatCode(selectedSeat)} · ${seatPositionLabel(selectedSeat)} · ${formatCurrency(selectedSeat.price)}`;
+                }
+            });
+
+            document.getElementById('seatModalBody').addEventListener('change', (e) => {
+                if (e.target.id === 'luggageCheck') {
+                    const group = document.getElementById('weightGroup');
+                    if (group) group.style.display = e.target.checked ? 'block' : 'none';
+                    if (!e.target.checked) {
+                        const input = document.getElementById('weightInput');
+                        if (input) input.value = '';
+                    }
+                }
+            });
+
+            document.getElementById('userBtn').addEventListener('click', (e) => {
+                e.stopPropagation();
+                document.getElementById('userDropdown').classList.toggle('show');
+            });
+        }
+
+        async function loadMyBookings() {
+            const { data } = await supabase
+                .from('bookings')
+                .select('travel_id, status')
+                .eq('traveler_id', currentProfile.id)
+                .neq('status', 'cancelled');
+            myTravelIds = new Set((data || []).map(b => b.travel_id));
+        }
+
+        async function searchTravels() {
+            const origin = document.getElementById('filterOrigin').value.trim();
+            const destination = document.getElementById('filterDestination').value.trim();
+            const dateFrom = document.getElementById('filterDateFrom').value;
+            const dateTo = document.getElementById('filterDateTo').value;
+            const list = document.getElementById('travelsList');
+
+            list.innerHTML = '<div class="empty-state" style="padding: 3rem;"><div class="loading"></div><p style="margin-top: 1rem;">Buscando...</p></div>';
+
+            try {
+                let query = supabase.from('travels').select(`
+                    *,
+                    driver:drivers(id, photo_url, profiles(full_name, avatar_url, phone)),
+                    car:cars(*),
+                    seats(*)
+                `)
+                    .eq('status', 'scheduled')
+                    .gte('departure_time', new Date().toISOString())
+                    .order('departure_time', { ascending: true });
+
+                if (origin) query = query.or(`source_city.ilike.%${origin}%,route.ilike.%${origin}%`);
+                if (destination) query = query.or(`destination_city.ilike.%${destination}%,route.ilike.%${destination}%`);
+                if (dateFrom) query = query.gte('departure_time', dateFrom);
+                if (dateTo) query = query.lte('departure_time', dateTo + 'T23:59:59');
+
+                const { data, error } = await query;
+                if (error) throw error;
+
+                const withFreeSeats = (data || []).filter(t => (t.seats || []).some(s => s.status === 'available'));
+                renderTravels(withFreeSeats);
+                document.getElementById('resultsCount').textContent = `${withFreeSeats.length} viaje${withFreeSeats.length !== 1 ? 's' : ''}`;
+            } catch (error) {
+                list.innerHTML = `<div class="alert alert-error" style="margin:1rem;">${escapeHtml(error.message)}</div>`;
+            }
+        }
+
+        function personImage(url) {
+            return url ? `<img src="${escapeHtml(url)}" alt="">` : '';
+        }
+
+        function renderTravels(travels) {
+            const list = document.getElementById('travelsList');
+
+            if (!travels.length) {
+                list.innerHTML = `
+                    <div class="empty-state" style="padding: 3rem;">
+                        <div class="empty-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></div>
+                        <div class="empty-title">No hay viajes con asientos libres</div>
+                        <p style="font-size: 0.875rem;">Prueba con otras fechas u origen/destino</p>
+                    </div>`;
+                return;
+            }
+
+            list.innerHTML = travels.map(t => {
+                const seats = t.seats || [];
+                const total = seats.length || 4;
+                const free = seats.filter(s => s.status === 'available').length;
+                const alreadyBooked = myTravelIds.has(t.id);
+                const avatar = t.driver?.photo_url || t.driver?.profiles?.avatar_url || '';
+                const vehicleImage = t.car?.image_url || '';
+                const soldOut = free === 0;
+                const priceRange = seatPriceRange(seats);
+                const priceLabel = priceRange?.label || formatCurrency(t.price_per_seat);
+
+                return `
+                    <div class="travel-card">
+                        <div class="travel-card-grid">
+                            <div>
+                                <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap; margin-bottom:.5rem;">
+                                    <span class="travel-code">${escapeHtml(t.travel_code || '—')}</span>
+                                    <h3 style="margin:0; font-size:1.125rem;">${escapeHtml(t.title || `${t.source_city} → ${t.destination_city}`)}</h3>
+                                    <span class="badge badge-${free > 0 ? 'success' : 'danger'}">${free > 0 ? `${free} asientos libres` : 'Completo'}</span>
+                                </div>
+                                <div class="travel-meta">
+                                    <span>${escapeHtml(t.source_city)} → ${escapeHtml(t.destination_city)}</span>
+                                    <span>${formatDate(t.departure_time)}</span>
+                                    <span>${formatDuration(t.average_duration_minutes)}</span>
+                                    <span>${priceLabel} / asiento</span>
+                                </div>
+                                ${t.route ? `<p style="margin:.75rem 0 0; font-size:.875rem; color:var(--text-medium);"><strong>Ruta:</strong> ${escapeHtml(t.route)}</p>` : ''}
+                                ${t.notes ? `<p style="margin:.25rem 0 0; font-size:.875rem; color:var(--text-light);">${escapeHtml(t.notes)}</p>` : ''}
+                                <div class="people-row">
+                                    <span class="person-chip">
+                                        ${avatar ? personImage(avatar) : '<span class="avatar-placeholder">C</span>'}
+                                        ${escapeHtml(t.driver?.profiles?.full_name || 'Sin conductor asignado')}
+                                    </span>
+                                    <span class="person-chip">
+                                        ${vehicleImage ? personImage(vehicleImage) : '<span class="avatar-placeholder">V</span>'}
+                                        ${t.car ? `${escapeHtml(t.car.brand)} ${escapeHtml(t.car.model)} · ${escapeHtml(t.car.license_plate)}` : 'Vehículo por asignar'}
+                                    </span>
+                                    <span class="person-chip">
+                                        <span class="avatar-placeholder">L</span>
+                                        Asientos A1 + A2/A3/A4
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="travel-price-box">
+                                <div class="travel-price">${priceLabel}<small>por asiento</small></div>
+                                ${alreadyBooked
+                                    ? '<span class="badge badge-primary">Ya tienes reserva</span>'
+                                    : `<button type="button" class="btn btn-primary btn-full book-btn" data-id="${t.id}" ${soldOut ? 'disabled' : ''}>${soldOut ? 'Completo' : 'Elegir asiento'}</button>`}
+                            </div>
+                        </div>
+                    </div>`;
+            }).join('');
+
+            list.querySelectorAll('.book-btn').forEach(btn => {
+                btn.addEventListener('click', () => openSeatModal(btn.dataset.id));
+            });
+        }
+
+        async function openSeatModal(travelId) {
+            selectedSeat = null;
+            stopSeatRefresh();
+            const modal = document.getElementById('seatModal');
+            const body = document.getElementById('seatModalBody');
+            body.innerHTML = '<div class="loading" style="display:block;margin:2rem auto;"></div>';
+            document.getElementById('confirmSeatBtn').disabled = false;
+
+            try {
+                const { data: t, error } = await supabase.from('travels').select(`
+                    *, driver:drivers(id, photo_url, profiles(full_name, avatar_url)),
+                    car:cars(*), seats(*, traveler:profiles(full_name))
+                `).eq('id', travelId).single();
+                if (error) throw error;
+
+                currentTravel = t;
+                renderSeatModal(t);
+                modal.classList.add('show');
+                startSeatRefresh();
+            } catch (error) {
+                body.innerHTML = `<div class="alert alert-error">${escapeHtml(error.message)}</div>`;
+                modal.classList.add('show');
+            }
+        }
+
+        function renderSeatModal(t) {
+            const body = document.getElementById('seatModalBody');
+            const seats = (t.seats || []).sort((a, b) => a.seat_number - b.seat_number);
+            const free = seats.filter(seat => seat.status === 'available').length;
+            const priceLabel = seatPriceRange(seats)?.label || formatCurrency(t.price_per_seat);
+
+            currentPickup = null;
+            otherPickup = null;
+            pickupMap = null;
+            pickupMarker = null;
+
+            document.getElementById('modalTravelCode').textContent = t.travel_code || '';
+
+            body.innerHTML = `
+                <div style="display:grid; gap:1rem;">
+                    <div class="info-grid">
+                        <div class="info-tile"><span class="info-label">Ruta</span><span class="info-value">${escapeHtml(t.route || `${t.source_city} → ${t.destination_city}`)}</span></div>
+                        <div class="info-tile"><span class="info-label">Salida</span><span class="info-value">${formatDate(t.departure_time)}</span></div>
+                        <div class="info-tile"><span class="info-label">Duración promedio</span><span class="info-value">${formatDuration(t.average_duration_minutes)}</span></div>
+                        <div class="info-tile"><span class="info-label">Precio por asiento</span><span class="info-value" id="seatPriceInfo">${priceLabel}</span></div>
+                        <div class="info-tile"><span class="info-label">Disponibles</span><span class="info-value" id="seatFreeInfo">${free} de ${seats.length}</span></div>
+                    </div>
+
+                    ${seatCabinHtml(seats, { currentProfileId: currentProfile.id })}
+                    ${seatLegendHtml()}
+
+                    <div class="luggage-box">
+                        <label class="checkbox-group" style="font-size:.9375rem; cursor:pointer;">
+                            <input type="checkbox" id="luggageCheck" class="checkbox">
+                            Confirmo que llevo equipaje y declaro su peso estimado
+                        </label>
+                        <div class="form-group" id="weightGroup" style="display:none;">
+                            <label class="label" for="weightInput">Peso estimado del equipaje (kg)</label>
+                            <input type="number" id="weightInput" class="input" min="0.5" max="100" step="0.5" placeholder="Ej: 12">
+                        </div>
+                        <div style="font-size:.8125rem; color:var(--text-light);">
+                            Asiento seleccionado: <strong id="selectedSeatLabel">—</strong>
+                        </div>
+                    </div>
+
+                    <div class="pickup-box">
+                        <div class="pickup-title">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                            ¿Dónde quieres retirar el viaje?
+                        </div>
+                        <div class="pickup-options">
+                            <label class="pickup-option">
+                                <input type="radio" name="pickup_option" value="current" checked>
+                                <span>
+                                    <strong>En mi ubicación actual</strong>
+                                    <small>Capturaremos tus coordenadas al confirmar.</small>
+                                </span>
+                            </label>
+                            <label class="pickup-option">
+                                <input type="radio" name="pickup_option" value="other">
+                                <span>
+                                    <strong>En otra ubicación</strong>
+                                    <small>Marca el punto exacto en el mapa.</small>
+                                </span>
+                            </label>
+                        </div>
+
+                        <div id="currentPickupBox" class="pickup-current">
+                            <button type="button" class="btn btn-sm btn-outline" id="captureLocationBtn">Capturar mi ubicación</button>
+                            <span id="pickupLocationStatus" class="pickup-status">Aún no se ha capturado tu ubicación.</span>
+                        </div>
+
+                        <div id="otherPickupBox" class="pickup-map-box" hidden>
+                            <div id="pickupMap" class="pickup-map"></div>
+                            <input type="text" id="pickupAddress" class="input" placeholder="Referencia: calle, sector, punto de encuentro (opcional)" style="margin-top: 0.5rem;">
+                            <div id="pickupMapStatus" class="pickup-status">Haz clic en el mapa para marcar el punto de recogida.</div>
+                        </div>
+                    </div>
+                </div>`;
+
+            setupPickupSection();
+        }
+
+        function setupPickupSection() {
+            document.querySelectorAll('input[name="pickup_option"]').forEach(radio => {
+                radio.addEventListener('change', () => {
+                    if (!radio.checked) return;
+                    const isOther = radio.value === 'other';
+                    document.getElementById('currentPickupBox').hidden = isOther;
+                    document.getElementById('otherPickupBox').hidden = !isOther;
+                    if (isOther) initPickupMap();
+                });
+            });
+
+            document.getElementById('captureLocationBtn').addEventListener('click', () => {
+                captureCurrentPickup(true).catch(() => {});
+            });
+        }
+
+        function getGeoPosition() {
+            return new Promise((resolve, reject) => {
+                if (!navigator.geolocation) {
+                    if (DEMO_MODE) {
+                        resolve({ lat: -0.1807, lng: -78.4678, demo: true });
+                    } else {
+                        reject(new Error('Este navegador no soporta geolocalización'));
+                    }
+                    return;
+                }
+
+                navigator.geolocation.getCurrentPosition(
+                    position => resolve({
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                        demo: false
+                    }),
+                    () => {
+                        if (DEMO_MODE) {
+                            resolve({ lat: -0.1807, lng: -78.4678, demo: true });
+                        } else {
+                            reject(new Error('No se pudo obtener tu ubicación. Activa el permiso de ubicación.'));
+                        }
+                    },
+                    { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+                );
+            });
+        }
+
+        async function captureCurrentPickup(showErrors = true) {
+            const status = document.getElementById('pickupLocationStatus');
+            if (status) status.textContent = 'Obteniendo tu ubicación...';
+
+            try {
+                const position = await getGeoPosition();
+                currentPickup = position;
+
+                if (status) {
+                    status.innerHTML = position.demo
+                        ? 'Ubicación demo: Quito (-0.1807, -78.4678)'
+                        : `Ubicación capturada: ${position.lat.toFixed(5)}, ${position.lng.toFixed(5)} · <a href="https://www.google.com/maps?q=${position.lat},${position.lng}" target="_blank" rel="noopener">Ver mapa</a>`;
+                }
+
+                if (position.demo) {
+                    showToast('Usando ubicación demo (Quito) porque el navegador no permitió la ubicación real.', 'warning', 6000);
+                }
+
+                return position;
+            } catch (error) {
+                currentPickup = null;
+                if (status) status.textContent = error.message;
+                if (showErrors) showToast(error.message, 'error');
+                throw error;
+            }
+        }
+
+        function initPickupMap() {
+            const mapElement = document.getElementById('pickupMap');
+            if (!mapElement) return;
+
+            if (typeof L === 'undefined') {
+                document.getElementById('pickupMapStatus').textContent =
+                    'No se pudo cargar el mapa. Revisa tu conexión o usa "En mi ubicación actual".';
+                return;
+            }
+
+            if (pickupMap) {
+                if (pickupMap.getContainer() === mapElement) {
+                    pickupMap.invalidateSize();
+                    return;
+                }
+                pickupMap.remove();
+                pickupMap = null;
+                pickupMarker = null;
+            }
+
+            const center = currentPickup
+                ? [currentPickup.lat, currentPickup.lng]
+                : [-0.1807, -78.4678];
+
+            pickupMap = L.map(mapElement).setView(center, currentPickup ? 13 : 6);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; OpenStreetMap'
+            }).addTo(pickupMap);
+
+            if (otherPickup) drawPickupMarker();
+
+            pickupMap.on('click', (event) => {
+                otherPickup = { lat: event.latlng.lat, lng: event.latlng.lng };
+                drawPickupMarker();
+                const status = document.getElementById('pickupMapStatus');
+                if (status) {
+                    status.innerHTML = `Punto marcado: ${otherPickup.lat.toFixed(5)}, ${otherPickup.lng.toFixed(5)} · <a href="https://www.google.com/maps?q=${otherPickup.lat},${otherPickup.lng}" target="_blank" rel="noopener">Ver mapa</a>`;
+                }
+            });
+
+            setTimeout(() => pickupMap?.invalidateSize(), 120);
+        }
+
+        function drawPickupMarker() {
+            if (!pickupMap || !otherPickup) return;
+            if (pickupMarker) pickupMap.removeLayer(pickupMarker);
+            pickupMarker = L.marker([otherPickup.lat, otherPickup.lng]).addTo(pickupMap);
+            pickupMap.setView([otherPickup.lat, otherPickup.lng], 14);
+        }
+
+        function startSeatRefresh() {
+            stopSeatRefresh();
+            seatRefreshTimer = setInterval(() => {
+                const modal = document.getElementById('seatModal');
+                if (!modal?.classList.contains('show') || !currentTravel) {
+                    stopSeatRefresh();
+                    return;
+                }
+                refreshSeatMap();
+            }, 4000);
+        }
+
+        function stopSeatRefresh() {
+            if (seatRefreshTimer) {
+                clearInterval(seatRefreshTimer);
+                seatRefreshTimer = null;
+            }
+        }
+
+        async function refreshSeatMap() {
+            if (!currentTravel) return;
+            const { data, error } = await supabase
+                .from('seats')
+                .select('*')
+                .eq('travel_id', currentTravel.id)
+                .order('seat_number', { ascending: true });
+
+            if (error || !data) return;
+
+            currentTravel.seats = data;
+            updateSeatCabin(data);
+        }
+
+        function updateSeatCabin(seats) {
+            const sorted = [...seats].sort((a, b) => a.seat_number - b.seat_number);
+
+            for (const seat of sorted) {
+                const btn = document.querySelector(`#seatModalBody .seat[data-seat-number="${seat.seat_number}"]`);
+                if (!btn) continue;
+
+                const status = seat.status || 'available';
+                const mine = seat.traveler_id === currentProfile.id;
+                btn.classList.remove('available', 'reserved', 'occupied', 'selected', 'selectable', 'mine');
+                btn.classList.add(status);
+                if (status === 'available') btn.classList.add('selectable');
+                if (mine) btn.classList.add('mine');
+                btn.disabled = status !== 'available';
+                btn.dataset.seatPrice = seat.price;
+                btn.dataset.seatId = seat.id;
+
+                const code = btn.querySelector('.seat-code');
+                if (code) code.textContent = `A${seat.seat_number}`;
+
+                const price = btn.querySelector('.seat-price');
+                if (price) price.textContent = formatCurrency(seat.price);
+
+                if (selectedSeat?.id === seat.id) {
+                    if (status === 'available') {
+                        btn.classList.add('selected');
+                    } else {
+                        selectedSeat = null;
+                        const label = document.getElementById('selectedSeatLabel');
+                        if (label) label.textContent = '—';
+                        showToast('Ese asiento acaba de ocuparse. Elige otro.', 'warning');
+                    }
+                }
+            }
+
+            const free = sorted.filter(seat => seat.status === 'available').length;
+            const freeInfo = document.getElementById('seatFreeInfo');
+            if (freeInfo) freeInfo.textContent = `${free} de ${sorted.length}`;
+
+            const priceInfo = document.getElementById('seatPriceInfo');
+            if (priceInfo) priceInfo.textContent = seatPriceRange(sorted)?.label || '—';
+        }
+
+        async function confirmBooking() {
+            const btn = document.getElementById('confirmSeatBtn');
+            if (!currentTravel || !selectedSeat) {
+                showToast('Selecciona un asiento libre primero', 'warning');
+                return;
+            }
+
+            const luggage = document.getElementById('luggageCheck').checked;
+            const weightInput = document.getElementById('weightInput');
+            const weight = luggage ? parseFloat(weightInput.value) : null;
+
+            if (luggage && (!weight || weight <= 0)) {
+                showToast('Indica el peso estimado del equipaje', 'warning');
+                weightInput.focus();
+                return;
+            }
+
+            const pickupOption = document.querySelector('input[name="pickup_option"]:checked')?.value || 'current';
+            let pickupPosition = null;
+
+            if (pickupOption === 'other') {
+                if (!otherPickup) {
+                    showToast('Marca el punto de recogida en el mapa', 'warning');
+                    document.getElementById('otherPickupBox').hidden = false;
+                    document.getElementById('currentPickupBox').hidden = true;
+                    initPickupMap();
+                    return;
+                }
+                pickupPosition = otherPickup;
+            } else {
+                pickupPosition = currentPickup;
+                if (!pickupPosition) {
+                    try {
+                        pickupPosition = await captureCurrentPickup(true);
+                    } catch (_) {
+                        showToast('No se pudo capturar tu ubicación. Elige "En otra ubicación" o activa el permiso.', 'error');
+                        return;
+                    }
+                }
+            }
+
+            const pickupAddress = pickupOption === 'other'
+                ? (document.getElementById('pickupAddress')?.value.trim() || null)
+                : null;
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading"></span> Reservando...';
+
+            try {
+                const { data, error } = await supabase.rpc('book_seat', {
+                    p_travel_id: currentTravel.id,
+                    p_seat_id: selectedSeat.id,
+                    p_luggage: luggage,
+                    p_weight: weight,
+                    p_pickup_option: pickupOption,
+                    p_pickup_lat: pickupPosition.lat,
+                    p_pickup_lng: pickupPosition.lng,
+                    p_pickup_address: pickupAddress
+                });
+                if (error) throw error;
+
+                stopSeatRefresh();
+                document.getElementById('seatModal').classList.remove('show');
+                showToast(
+                    `Reserva confirmada. Viaje <strong>${escapeHtml(currentTravel.travel_code)}</strong> · Asiento <strong>A${selectedSeat.number}</strong> · ${formatCurrency(selectedSeat.price)} · Referencia <strong>${escapeHtml(data.booking_reference)}</strong>`,
+                    'success',
+                    8000
+                );
+                await loadMyBookings();
+                await searchTravels();
+            } catch (error) {
+                showToast(error.message, 'error');
+                if (String(error.message).toLowerCase().includes('asiento')) {
+                    selectedSeat = null;
+                    await refreshSeatMap();
+                }
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Confirmar reserva';
+            }
+        }
+
+        document.querySelectorAll('[data-modal-close]').forEach(b => b.addEventListener('click', () => {
+            const overlay = b.closest('.modal-overlay');
+            if (overlay?.id === 'seatModal') stopSeatRefresh();
+            overlay?.classList.remove('show');
+        }));
+        document.querySelectorAll('.modal-overlay').forEach(o => o.addEventListener('click', e => {
+            if (e.target === o) {
+                if (o.id === 'seatModal') stopSeatRefresh();
+                o.classList.remove('show');
+            }
+        }));
+        document.addEventListener('click', () => document.getElementById('userDropdown')?.classList.remove('show'));
+
+        init();
+    </script>
+</body>
+</html>

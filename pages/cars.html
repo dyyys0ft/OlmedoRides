@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Vehículos - OlmedoRides</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">O</div>
+                <span class="sidebar-title">OlmedoRides</span>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Principal</div>
+                    <a href="dashboard.html" class="nav-item">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                        Dashboard
+                    </a>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-section-title">Gestión</div>
+                    <a href="travels.html" class="nav-item">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+                        Viajes
+                    </a>
+                    <a href="cars.html" class="nav-item active">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 17h2c.6 0 1-.4 1-1v-3h-3c-.6 0-1-.4-1-1V7h1V4h-2v1H7V4H5v2H2v2h2v3c0 .6.4 1 1 1h3v3h3v3H7v2h12v-2h2v-3h-3c-.6 0-1-.4-1-1v-3h3c.6 0 1-.4 1-1v-2h-2z"></path><circle cx="7" cy="17" r="2"></circle><circle cx="17" cy="17" r="2"></circle></svg>
+                        Vehículos
+                    </a>
+                    <a href="drivers.html" class="nav-item">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        Conductores
+                    </a>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-section-title">Reportes</div>
+                    <a href="bookings.html" class="nav-item">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path></svg>
+                        Reservas
+                    </a>
+                </div>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#" class="nav-item" id="logoutBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                    Cerrar Sesión
+                </a>
+            </div>
+        </aside>
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+        
+        <main class="main-content">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button class="menu-toggle" id="menuToggle"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+                    <h1 class="page-title">Gestión de Vehículos</h1>
+                </div>
+                <div class="topbar-right">
+                    <div class="user-menu">
+                        <button class="user-btn" id="userBtn">
+                            <div class="user-avatar" id="userAvatar">U</div>
+                            <div><div class="user-name" id="userName">Usuario</div><div class="user-role" id="userRole">Rol</div></div>
+                        </button>
+                        <div class="dropdown" id="userDropdown">
+                            <a href="profile.html" class="dropdown-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>Mi Perfil</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item" id="logoutDropdown"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>Cerrar Sesión</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <div class="page-content">
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <div class="card-body" style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between;">
+                        <input type="text" id="searchInput" class="input" placeholder="Buscar vehículos..." style="width: 300px;">
+                        <button class="btn btn-primary" id="newCarBtn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>Nuevo Vehículo</button>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body" style="padding: 0;">
+                        <div class="table-container">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Matrícula</th>
+                                        <th>Marca</th>
+                                        <th>Modelo</th>
+                                        <th>Año</th>
+                                        <th>Plazas</th>
+                                        <th>Imagen</th>
+                                        <th>Estado</th>
+                                        <th>Notas</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="carsBody">
+                                    <tr><td colspan="9" class="empty-state" style="padding: 3rem;"><div class="loading"></div><p style="margin-top: 1rem;">Cargando...</p></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Car Modal -->
+    <div class="modal-overlay" id="carModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="carModalTitle">Nuevo Vehículo</h3>
+                <button class="modal-close" data-modal-close>&times;</button>
+            </div>
+            <form id="carForm" class="modal-body">
+                <input type="hidden" name="id" id="carId">
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label class="label" for="license_plate">Matrícula *</label>
+                        <input type="text" name="license_plate" id="license_plate" class="input" required placeholder="1234 ABC" style="text-transform: uppercase;">
+                    </div>
+                    <div class="form-group">
+                        <label class="label" for="brand">Marca *</label>
+                        <input type="text" name="brand" id="brand" class="input" required placeholder="Mercedes">
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label class="label" for="model">Modelo *</label>
+                        <input type="text" name="model" id="model" class="input" required placeholder="Sprinter">
+                    </div>
+                    <div class="form-group">
+                        <label class="label" for="year">Año</label>
+                        <input type="number" name="year" id="year" class="input" min="1990" max="2030" placeholder="2024">
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label class="label" for="total_seats">Número de plazas *</label>
+                        <input type="number" name="total_seats" id="total_seats" class="input" required min="1" max="50" value="4">
+                        <small style="color:var(--text-light);">La distribución de asientos del viaje es fija: 1 delantero derecho + 3 atrás.</small>
+                    </div>
+                    <div class="form-group">
+                        <label class="label" for="is_active">Estado</label>
+                        <div class="checkbox-group">
+                            <input type="checkbox" name="is_active" id="is_active" class="checkbox" checked>
+                            <label for="is_active">Activo</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="label" for="image_url">Imagen del vehículo (URL)</label>
+                    <input type="url" name="image_url" id="image_url" class="input" placeholder="https://.../vehiculo.jpg">
+                    <img id="carImagePreview" class="image-preview" alt="Vista previa del vehículo" hidden>
+                </div>
+                
+                <div class="form-group">
+                    <label class="label" for="notes">Notas</label>
+                    <textarea name="notes" id="notes" class="input textarea" rows="3" placeholder="Información adicional..."></textarea>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-modal-close>Cancelar</button>
+                    <button type="submit" class="btn btn-primary" id="saveCarBtn">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Delete Confirmation Modal -->
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal">
+            <div class="modal-header"><h3 class="modal-title">Eliminar Vehículo</h3><button class="modal-close" data-modal-close>&times;</button></div>
+            <div class="modal-body"><p>¿Eliminar este vehículo? Si tiene viajes asignados, no se podrá eliminar hasta reasignarlos.</p></div>
+            <div class="modal-footer"><button type="button" class="btn btn-secondary" data-modal-close>Cancelar</button><button type="button" class="btn btn-danger" id="confirmDeleteBtn">Eliminar</button></div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { supabase } from '../js/olmedorides.js';
+        
+        let currentCarId = null;
+        
+        async function checkAuth() {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (!session) { window.location.href = 'login.html'; return null; }
+            const { data: profile } = await supabase.from('profiles').select('role, full_name').eq('id', session.user.id).single();
+            if (!profile || !['admin', 'secretary'].includes(profile.role)) { window.location.href = 'my-travels.html'; return null; }
+            return { session, profile };
+        }
+        
+        async function init() {
+            const auth = await checkAuth();
+            if (!auth) return;
+            
+            document.getElementById('userName').textContent = auth.profile.full_name || 'Usuario';
+            document.getElementById('userRole').textContent = auth.profile.role;
+            document.getElementById('userAvatar').textContent = (auth.profile.full_name || 'U')[0].toUpperCase();
+            
+            await loadCars();
+            setupEventListeners();
+            
+            if (new URLSearchParams(window.location.search).get('new') === '1') openCarModal();
+        }
+        
+        async function loadCars() {
+            const search = document.getElementById('searchInput').value;
+            let query = supabase.from('cars').select('*').order('brand').order('model');
+            if (search) query = query.or(`license_plate.ilike.%${search}%,brand.ilike.%${search}%,model.ilike.%${search}%`);
+            
+            const { data, error } = await query;
+            if (error) { console.error(error); return; }
+            
+            renderCars(data || []);
+        }
+        
+        function renderCars(cars) {
+            const tbody = document.getElementById('carsBody');
+            if (!cars.length) {
+                tbody.innerHTML = `<tr><td colspan="9" class="empty-state" style="padding: 3rem;"><div class="empty-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 17h2c.6 0 1-.4 1-1v-3h-3c-.6 0-1-.4-1-1V7h1V4h-2v1H7V4H5v2H2v2h2v3c0 .6.4 1 1 1h3v3h3v3H7v2h12v-2h2v-3h-3c-.6 0-1-.4-1-1v-3h3c.6 0 1-.4 1-1v-2h-2z"></path><circle cx="7" cy="17" r="2"></circle><circle cx="17" cy="17" r="2"></circle></svg></div><div class="empty-title">No hay vehículos</div></td></tr>`;
+                return;
+            }
+            tbody.innerHTML = cars.map(c => `
+                <tr>
+                    <td><strong>${c.license_plate}</strong></td>
+                    <td>${c.brand}</td>
+                    <td>${c.model}</td>
+                    <td>${c.year || '-'}</td>
+                    <td><span class="badge badge-primary">${c.total_seats}</span></td>
+                    <td>${c.image_url ? `<img src="${c.image_url}" class="travel-thumb" alt="Vehículo">` : '<div class="travel-thumb-fallback">Sin foto</div>'}</td>
+                    <td><span class="badge badge-${c.is_active ? 'success' : 'gray'}">${c.is_active ? 'Activo' : 'Inactivo'}</span></td>
+                    <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${c.notes || '-'}</td>
+                    <td>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-sm btn-outline edit-btn" data-id="${c.id}" title="Editar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button>
+                            <button class="btn btn-sm btn-outline delete-btn" data-id="${c.id}" title="Eliminar" style="color: var(--danger); border-color: var(--danger);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+        
+        function setupEventListeners() {
+            document.getElementById('searchInput').addEventListener('input', debounce(loadCars, 300));
+            document.getElementById('newCarBtn').addEventListener('click', () => openCarModal());
+            document.getElementById('carForm').addEventListener('submit', saveCar);
+            document.getElementById('image_url').addEventListener('input', updateCarImagePreview);
+            
+            document.getElementById('carsBody').addEventListener('click', e => {
+                const editBtn = e.target.closest('.edit-btn');
+                const deleteBtn = e.target.closest('.delete-btn');
+                if (editBtn) openCarModal(editBtn.dataset.id);
+                if (deleteBtn) { currentCarId = deleteBtn.dataset.id; document.getElementById('deleteModal').classList.add('show'); }
+            });
+            
+            document.getElementById('confirmDeleteBtn').addEventListener('click', deleteCar);
+            document.getElementById('logoutBtn').addEventListener('click', logout);
+            document.getElementById('logoutDropdown').addEventListener('click', logout);
+        }
+        
+        function openCarModal(id = null) {
+            const modal = document.getElementById('carModal');
+            const form = document.getElementById('carForm');
+            form.reset();
+            document.getElementById('carId').value = '';
+            document.getElementById('is_active').checked = true;
+            document.getElementById('carImagePreview').hidden = true;
+            document.getElementById('carImagePreview').removeAttribute('src');
+            clearErrors(form);
+            
+            if (id) {
+                document.getElementById('carModalTitle').textContent = 'Editar Vehículo';
+                document.getElementById('saveCarBtn').textContent = 'Actualizar';
+                loadCarForEdit(id);
+            } else {
+                document.getElementById('carModalTitle').textContent = 'Nuevo Vehículo';
+                document.getElementById('saveCarBtn').textContent = 'Crear';
+            }
+            modal.classList.add('show');
+        }
+        
+        async function loadCarForEdit(id) {
+            const { data, error } = await supabase.from('cars').select('*').eq('id', id).single();
+            if (error) { console.error(error); return; }
+            
+            document.getElementById('carId').value = data.id;
+            document.getElementById('license_plate').value = data.license_plate;
+            document.getElementById('brand').value = data.brand;
+            document.getElementById('model').value = data.model;
+            document.getElementById('year').value = data.year || '';
+            document.getElementById('total_seats').value = data.total_seats;
+            document.getElementById('is_active').checked = data.is_active;
+            document.getElementById('image_url').value = data.image_url || '';
+            updateCarImagePreview();
+            document.getElementById('notes').value = data.notes || '';
+        }
+        
+        function updateCarImagePreview() {
+            const url = document.getElementById('image_url').value.trim();
+            const img = document.getElementById('carImagePreview');
+            if (url) {
+                img.src = url;
+                img.hidden = false;
+            } else {
+                img.hidden = true;
+                img.removeAttribute('src');
+            }
+        }
+        
+        async function saveCar(e) {
+            e.preventDefault();
+            const form = e.target;
+            const btn = document.getElementById('saveCarBtn');
+            const id = document.getElementById('carId').value;
+            
+            clearErrors(form);
+            
+            const data = {
+                license_plate: form.license_plate.value.trim().toUpperCase(),
+                brand: form.brand.value.trim(),
+                model: form.model.value.trim(),
+                year: form.year.value ? parseInt(form.year.value) : null,
+                total_seats: parseInt(form.total_seats.value) || 1,
+                is_active: form.is_active.checked,
+                image_url: form.image_url.value.trim() || null,
+                notes: form.notes.value.trim()
+            };
+            
+            let hasError = false;
+            if (!data.license_plate) { showFieldError(form, 'license_plate', 'Matrícula obligatoria'); hasError = true; }
+            if (!data.brand) { showFieldError(form, 'brand', 'Marca obligatoria'); hasError = true; }
+            if (!data.model) { showFieldError(form, 'model', 'Modelo obligatorio'); hasError = true; }
+            if (data.total_seats < 1) { showFieldError(form, 'total_seats', 'Mínimo 1 plaza'); hasError = true; }
+            if (hasError) return;
+            
+            showLoading(btn, true);
+            try {
+                if (id) { const { error } = await supabase.from('cars').update(data).eq('id', id); if (error) throw error; showAlert('Vehículo actualizado', 'success'); }
+                else { const { error } = await supabase.from('cars').insert(data); if (error) throw error; showAlert('Vehículo creado', 'success'); }
+                document.getElementById('carModal').classList.remove('show');
+                await loadCars();
+            } catch (error) { showAlert(error.message, 'error'); }
+            finally { showLoading(btn, false); }
+        }
+        
+        async function deleteCar() {
+            if (!currentCarId) return;
+            const btn = document.getElementById('confirmDeleteBtn');
+            showLoading(btn, true);
+            try {
+                const { error } = await supabase.from('cars').delete().eq('id', currentCarId);
+                if (error) throw error;
+                showAlert('Vehículo eliminado', 'success');
+                document.getElementById('deleteModal').classList.remove('show');
+                await loadCars();
+            } catch (error) { showAlert(error.message, 'error'); }
+            finally { showLoading(btn, false); }
+        }
+        
+        async function logout(e) { e.preventDefault(); await supabase.auth.signOut(); window.location.href = 'login.html'; }
+        
+        function debounce(fn, ms) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; }
+        function showLoading(btn, l) { if (l) { btn.disabled = true; btn.dataset.t = btn.innerHTML; btn.innerHTML = '<span class="loading"></span> Guardando...'; } else { btn.disabled = false; btn.innerHTML = btn.dataset.t || btn.innerHTML; } }
+        function showAlert(m, t) { const a = document.createElement('div'); a.className = `alert alert-${t}`; a.style.cssText = 'position:fixed;top:1rem;right:1rem;z-index:1100;max-width:400px'; a.innerHTML = m; document.body.appendChild(a); setTimeout(() => { a.style.opacity = '0'; setTimeout(() => a.remove(), 300); }, 4000); }
+        function clearErrors(f) { f.querySelectorAll('.form-error').forEach(e => e.classList.remove('visible')); f.querySelectorAll('.input, .select, .textarea').forEach(e => e.style.borderColor = ''); }
+        function showFieldError(f, field, msg) { const el = f.querySelector(`[name="${field}"]`); let err = f.querySelector(`[data-error-for="${field}"]`); if (!err) { err = document.createElement('div'); err.className = 'form-error'; err.dataset.errorFor = field; el.parentNode.appendChild(err); } err.textContent = msg; err.classList.add('visible'); if (el) el.style.borderColor = 'var(--danger)'; }
+        
+        document.querySelectorAll('[data-modal-close]').forEach(b => b.addEventListener('click', () => b.closest('.modal-overlay').classList.remove('show')));
+        document.querySelectorAll('.modal-overlay').forEach(o => o.addEventListener('click', e => { if (e.target === o) o.classList.remove('show'); }));
+        
+        init();
+    </script>
+</body>
+</html>
